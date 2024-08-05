@@ -186,7 +186,7 @@ export async function POST(request: Request) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            }
+            },
         );
     } catch (error) {
         console.error(error);
