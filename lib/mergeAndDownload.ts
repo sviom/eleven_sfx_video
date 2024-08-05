@@ -63,3 +63,63 @@ export async function mergeAndDownload(videoFile: File | null, audioData: string
     await load();
     await process();
 }
+
+import {createReadStream} from 'fs';
+import ffmpeg from 'fluent-ffmpeg';
+
+export async function mergeAndDownloadFluent(videoFile: File | null, audioData: string) {
+    const { fetchFile, toBlobURL } = await import('@ffmpeg/util');
+
+    const process = async () => {
+        console.log('transcoding');
+        if (!videoFile) {
+            throw new Error('No video file');
+        }
+
+        if (videoFile) {
+            await ffmpeg.writeFile('input.mp4', await fetchFile(URL.createObjectURL(videoFile)));
+            createReadStream(videoFile);
+        }
+
+        // const zzz = await fetchFile(audioData);
+        // ffmpeg('audio.mpeg').format('mpeg'); // ('audio.mpeg', await fetchFile(audioData));
+        ffmpeg(audioData).format('mpeg').run(); // ('audio.mpeg', await fetchFile(audioData));
+
+
+        await ffmpeg.exec(['-v', 'error', '-i', 'input.mp4', '-f', 'null', '-']);
+
+        await ffmpeg.exec(['-v', 'error', '-i', 'audio.mpeg', '-f', 'null', '-']);
+
+        await ffmpeg.exec([
+            '-i',
+            'input.mp4',
+            '-an', // This option removes the audio
+            'no_audio.mp4',
+        ]);
+
+        await ffmpeg.exec([
+            '-v',
+            'verbose',
+            '-i',
+            'no_audio.mp4',
+            '-i',
+            'audio.mpeg',
+            '-c:v',
+            'copy', // Copy the video codec
+            '-c:a',
+            'aac', // Transcode audio to AAC
+            '-strict',
+            'experimental',
+            'output.mp4',
+        ]);
+        console.log('transcoding completed');
+        const data = (await ffmpeg.readFile('output.mp4')) as Uint8Array;
+        const final_url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+        const downloadLinkFinalVideo = document.createElement('a');
+        downloadLinkFinalVideo.href = final_url;
+        downloadLinkFinalVideo.download = 'final_output.mp4';
+        downloadLinkFinalVideo.click();
+    };
+
+    await process();
+}
