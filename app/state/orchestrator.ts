@@ -7,7 +7,7 @@ export class Orchestrator {
     caption: string;
     playing: boolean;
 
-    constructor({ caption, soundEffects }: { caption: string; soundEffects: string[] }) {
+    constructor({ caption, soundEffects, customText }: { caption: string; soundEffects: string[]; customText: string }) {
         this.playing = false;
         this.caption = caption;
         this.sfxPlayers = soundEffects.map((data) => new AudioPlayer(data));

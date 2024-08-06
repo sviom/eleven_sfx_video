@@ -136,6 +136,7 @@ if (typeof window !== 'undefined') {
 }
 
 const HomeDetails = observer(() => {
+    const [customText, setCustomText] = useState<string>('');
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [file, setFile] = useState<File | null>(null);
     const [orchestrator, setOrchestrator] = useState<Orchestrator | null>(null);
@@ -201,7 +202,7 @@ const HomeDetails = observer(() => {
             <div className="absolute md:flex justify-between p-4 hidden w-full text-black">
                 <a href="https://elevenlabs.io/docs/api-reference/how-to-use-text-to-sound-effects">
                     <div className="font-mono text-sm mb-1 text-gray-900">
-                        <span className="underline pr-2">ElevenLabs Texts to Sounds Effects API</span>
+                        <span className="underline pr-2">AnAI Texts to Sounds Effects API</span>
                         <span className="pr-2">is now live</span>
                         <ArrowRight className="inline-block" size={16} />
                     </div>
@@ -225,6 +226,13 @@ const HomeDetails = observer(() => {
             <motion.div
                 className="absolute w-full md:w-[620px] top-[50vh] left-1/2 mx-auto stack items-center gap-6 p-6 pt-0 pb-8 md:p-12 md:px-4 md:pb-16"
                 variants={variants.content}>
+                <motion.input
+                    type="text"
+                    placeholder="무엇을 입력해야 할까요????"
+                    className="w-full rounded-3xl"
+                    onChange={(e) => setCustomText(e.target.value)}
+                    value={customText}
+                />
                 <motion.div variants={variants.card} className="w-full aspect-video rounded-3xl bg-white/80 backdrop-blur-[16px] text-transparent md:text-black">
                     {!previewUrl && (
                         <FileInput
@@ -246,11 +254,12 @@ const HomeDetails = observer(() => {
                                         new Orchestrator({
                                             soundEffects: sfx.soundEffects,
                                             caption: sfx.caption,
+                                            customText: customText,
                                         })
                                     );
                                 }
                             }}>
-                            <img src="/logo-squircle.svg" className="w-16 h-16 mb-3 mix-blend-hard-light" />
+                            <img src="/logo-squircle.svg" className="w-16 h-16 mb-3 mix-blend-hard-light" alt="일시정지모양" />
                             <div className="font-mono text-sm mb-1 text-gray-900">Video to sound effects</div>
                             <div className="font-mono text-sm text-center text-gray-800/60 h-[1rem]">
                                 <FunText text="Upload a video." />
