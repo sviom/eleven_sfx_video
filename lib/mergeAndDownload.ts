@@ -68,20 +68,20 @@ import fluent_ffmpeg from 'fluent-ffmpeg'
 
 
 export async function mergeAndDownloadFluent(videoFile: File | null, audioData: string) {
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg');
+    // const { FFmpeg } = await import('@ffmpeg/ffmpeg');
     const { fetchFile, toBlobURL } = await import('@ffmpeg/util');
-    const ffmpeg = new FFmpeg();
+    // const ffmpeg = new FFmpeg();
 
-    const load = async () => {
-        const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
-        ffmpeg.on('log', ({ message }) => {
-            console.log(message);
-        });
-        await ffmpeg.load({
-            coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-            wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-        });
-    };
+    // const load = async () => {
+    //     const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+    //     ffmpeg.on('log', ({ message }) => {
+    //         console.log(message);
+    //     });
+    //     await ffmpeg.load({
+    //         coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+    //         wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+    //     });
+    // };
     const process = async () => {
         console.log('transcoding');
         if (!videoFile) {
@@ -129,6 +129,6 @@ export async function mergeAndDownloadFluent(videoFile: File | null, audioData: 
         downloadLinkFinalVideo.click();
     };
 
-    await load();
+    // await load();
     await process();
 }
