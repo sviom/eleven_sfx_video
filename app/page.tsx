@@ -179,7 +179,7 @@ const HomeDetails = observer(() => {
 
     const mutations = {
         videoToSfx: useMutation({
-            mutationFn: async (file: File, customText?: string) => convertVideoToSFX(URL.createObjectURL(file), customText),
+            mutationFn: async (file: File) => convertVideoToSFX(URL.createObjectURL(file), customText),
         }),
     };
 

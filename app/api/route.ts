@@ -142,7 +142,7 @@ export async function POST(request: Request) {
         console.log('KV_REST_API_URL and KV_REST_API_TOKEN env vars not found, not rate limiting...');
     }
 
-    const { frames, maxDuration } = (await request.json()) as VideoToSFXRequestBody;
+    const { frames, maxDuration, customText } = (await request.json()) as VideoToSFXRequestBody;
     console.log('request started', frames, maxDuration);
 
     const duration = maxDuration && maxDuration < MAX_DURATION ? maxDuration : MAX_DURATION;
@@ -150,6 +150,7 @@ export async function POST(request: Request) {
     let caption = '';
     try {
         caption = await generateCaptionForImage(frames);
+        caption += ` and ${customText}`;
         console.log('caption', caption);
     } catch (error) {
         console.error(error);
@@ -186,7 +187,7 @@ export async function POST(request: Request) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            },
+            }
         );
     } catch (error) {
         console.error(error);
