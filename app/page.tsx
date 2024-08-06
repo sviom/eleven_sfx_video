@@ -136,7 +136,7 @@ if (typeof window !== 'undefined') {
 }
 
 const HomeDetails = observer(() => {
-    const [customText, setCustomText] = useState<string>('');
+    const [customText, setCustomText] = useState<string>('mechanical sound');
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [file, setFile] = useState<File | null>(null);
     const [orchestrator, setOrchestrator] = useState<Orchestrator | null>(null);
@@ -179,7 +179,7 @@ const HomeDetails = observer(() => {
 
     const mutations = {
         videoToSfx: useMutation({
-            mutationFn: async (file: File) => convertVideoToSFX(URL.createObjectURL(file)),
+            mutationFn: async (file: File, customText?: string) => convertVideoToSFX(URL.createObjectURL(file), customText),
         }),
     };
 
@@ -253,8 +253,7 @@ const HomeDetails = observer(() => {
                                     setOrchestrator(
                                         new Orchestrator({
                                             soundEffects: sfx.soundEffects,
-                                            caption: sfx.caption,
-                                            customText: customText,
+                                            caption: sfx.caption
                                         })
                                     );
                                 }
