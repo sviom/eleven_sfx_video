@@ -136,7 +136,7 @@ if (typeof window !== 'undefined') {
 }
 
 const HomeDetails = observer(() => {
-    const [customText, setCustomText] = useState<string>('mechanical sound');
+    const [customText, setCustomText] = useState<string>('');
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [file, setFile] = useState<File | null>(null);
     const [orchestrator, setOrchestrator] = useState<Orchestrator | null>(null);
@@ -226,13 +226,13 @@ const HomeDetails = observer(() => {
             <motion.div
                 className="absolute w-full md:w-[620px] top-[50vh] left-1/2 mx-auto stack items-center gap-6 p-6 pt-0 pb-8 md:p-12 md:px-4 md:pb-16"
                 variants={variants.content}>
-                <motion.input
-                    type="text"
-                    placeholder="무엇을 입력해야 할까요????"
-                    className="w-full rounded-3xl"
-                    onChange={(e) => setCustomText(e.target.value)}
-                    value={customText}
-                />
+                {/*<motion.input*/}
+                {/*    type="text"*/}
+                {/*    placeholder="무엇을 입력해야 할까요????"*/}
+                {/*    className="w-full rounded-3xl"*/}
+                {/*    onChange={(e) => setCustomText(e.target.value)}*/}
+                {/*    value={customText}*/}
+                {/*/>*/}
                 <motion.div variants={variants.card} className="w-full aspect-video rounded-3xl bg-white/80 backdrop-blur-[16px] text-transparent md:text-black">
                     {!previewUrl && (
                         <FileInput
